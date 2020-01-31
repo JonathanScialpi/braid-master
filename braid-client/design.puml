@@ -1,0 +1,91 @@
+@startuml "braid-client"
+
+title Braid Java Client Sequences
+
+participant "Client" as c
+participant "BraidClient" as b
+participant "Invocations" as i
+participant "ObservableStrategy" as o
+participant "Observable 1" as o1
+participant "Server" as s
+
+group construction
+c -> b: create
+activate c
+activate b
+b -> i: create
+activate i
+i -> s: create socket or throw
+activate s
+s --> i
+deactivate s
+i --> b
+deactivate i
+b --> c
+deactivate b
+deactivate c
+end group 
+
+group ""foo(): Observable<String>""
+c -> b: foo()
+activate c
+activate b
+b -> i: invoke("foo")
+activate i
+i -> o: create("foo")
+activate o
+o -> o1: create
+o --> i:
+i -> o: getResult
+o --> i: observable
+deactivate o
+i --> b: observable
+deactivate i
+b --> c: observable
+deactivate b
+deactivate c
+end group
+
+group ""observable.subscribe()""
+c -> o1: subscribe { ... }
+activate c
+activate o1
+o1 -> o: subscribe
+activate o
+o -> i: generate requestId
+o -> o: register subscription against id
+o -> o: prepare payload "{ id: requestId, method: foo isStreaming: true}"
+o -> i: send request
+o --> o1
+deactivate o
+o1 --> c: subscription
+deactivate o1
+deactivate c
+... on vertx/netty event loop ...
+i -> s: payload
+end group
+
+group ""onNext(item)"" from server
+... some time later ...
+s -> i: { id: requestId, result: "item1" }
+activate i
+i -> o: receive(requestId, result)
+activate o
+o -> o: run on thread
+o -> o: locate subscriber for requestId
+o -> o1: onNext(item)
+activate o1
+o1 -> c: onNext (via rx)
+activate c
+c -> c: handle
+c --> o1
+deactivate c
+o1 --> o
+deactivate o1
+o --> i:
+deactivate o
+i --> s:
+deactivate i
+end group
+@enduml
+

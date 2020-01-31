@@ -1,0 +1,99 @@
+<!--
+  ~ Copyright 2018 Royal Bank of Scotland
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<script src="/dist/bundle.js"></script>
+
+<template id="app-issue-currency-template">
+  <link href="../style.css" rel="stylesheet">
+  <div class="widget hidden">
+    <label>Issue Currency</label><br>
+    <label class="small">currency</label>
+    <select id="currency">
+      <option value="£">GBP</option>
+      <option value="$">USD</option>
+    </select>
+    <label class="small">amount</label>
+    <input id="amount" type=number value="100">
+    <button id='btn_issue'>Issue</button>
+  </div>
+  <style>
+    .small {
+      font-size: 18px;
+    }
+  </style>
+</template>
+
+<script>
+  (function () {
+    class AppIssueCurrency extends SimpleComponent {
+      constructor() {
+        super('app-issue-currency-template');
+      }
+
+      connectedCallback() {
+        const thisObj = this;
+        const logger = document.querySelector('#console');
+        const bt = this.$('#btn_issue');
+        let nextRef = 1;
+        bt.onclick = () => {
+          issue()
+        }
+
+        function issue() {
+          const proxy = thisObj._proxy;
+          const elCcy = thisObj.$('#currency');
+          const ccy = elCcy[elCcy.selectedIndex].value;
+          const amount = thisObj.$('#amount').value;
+          logger.log("issuing", ccy + amount);
+          proxy.network.notaryIdentities()
+            .then(notaries => {
+              return notaries[0];
+            })
+            .then(notary => {
+              return proxy.flows.issueCash(ccy + amount, "ref" + (nextRef++), notary);
+            })
+            .then(tx => {
+              return tx.stx.transaction;
+            })
+            .then(tx => {
+              logger.log("issued transaction", tx.id);
+              logger.log("outputs", tx.outputs[0].data);
+            })
+            .catch(e => {
+              logger.error("failed to issue", e);
+            })
+        }
+      }
+
+      disconnectedCallback() {
+        const bt = this.$('#btn_issue');
+        bt.onclick = null;
+      }
+
+      setConnection(proxy) {
+        window.proxy = proxy;
+        this._proxy = proxy;
+        if(proxy !== null) {
+          this.$('.widget').classList.remove('hidden');
+        } else {
+          this.$('.widget').classList.add('hidden');
+        }
+      }
+    }
+
+    window.customElements.define('app-issue-currency', AppIssueCurrency);
+  })();
+</script>

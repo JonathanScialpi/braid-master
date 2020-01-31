@@ -1,0 +1,7 @@
+**/.idea
+**/.vertx
+target
+*.iml
+**/service-scripts
+**/file-uploads
+src/main/resources/editor-web

@@ -1,0 +1,43 @@
+/*
+ * Copyright 2018 Royal Bank of Scotland
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+apply plugin: 'net.corda.plugins.cordapp'
+
+cordapp {
+  targetPlatformVersion corda_platform_version.toInteger()
+  minimumPlatformVersion corda_platform_version.toInteger()
+  contract {
+    name "Template CorDapp"
+    vendor "Corda Open Source"
+    licence "Apache License, Version 2.0"
+    versionId 1
+  }
+}
+
+dependencies {
+  compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+  testCompile "junit:junit:$junit_version"
+  testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+
+  // Corda integration dependencies
+  cordaCompile "net.corda:corda-core:$corda_release_version"
+  cordaCompile "$corda_release_group:corda-finance-contracts:$corda_release_version"
+  cordaCompile "$corda_release_group:corda-finance-workflows:$corda_release_version"
+  cordaCompile "net.corda:corda-jackson:$corda_release_version"
+  cordaCompile "net.corda:corda-rpc:$corda_release_version"
+  cordaCompile "net.corda:corda-node-api:$corda_release_version"
+  cordaRuntime "net.corda:corda:$corda_release_version"
+  testCompile "net.corda:corda-node-driver:$corda_release_version"
+}

@@ -1,0 +1,104 @@
+/*
+ * Copyright 2018 Royal Bank of Scotland
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* Define the "system" font family */
+@font-face {
+  font-family: system;
+  font-style: normal;
+  font-weight: 300;
+  src: local(".SFNSText-Light"), local(".HelveticaNeueDeskInterface-Light"), local(".LucidaGrandeUI"), local("Ubuntu Light"), local("Segoe UI Light"), local("Roboto-Light"), local("DroidSans"), local("Tahoma");
+}
+
+html {
+  font-family: system;
+  font-size: 2em;
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  background: #e2e1e0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  box-sizing: inherit;
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  padding: inherit;
+  margin: inherit;
+}
+
+.widget {
+  background: white;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+  flex-direction: row;
+  margin: 10px;
+  text-align: left;
+  box-sizing: inherit;
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  padding: 10px;
+}
+
+.content {
+}
+
+.bottom {
+  flex: 1;
+}
+
+label {
+  align-self: flex-end;
+  margin-bottom: 10px;
+  vertical-align: middle;
+}
+
+
+select {
+  font-size: 16pt;
+  height: 34px;
+  vertical-align: middle;
+}
+
+input {
+  font-size: 16pt;
+}
+
+button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 7px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  height: 34px;
+  vertical-align: middle;
+}
+
+button:active {
+  transform: translate(1px, 1px)
+}
+
+.hidden {
+  pointer-events: none;
+  opacity: 0.4;
+}

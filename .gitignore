@@ -1,0 +1,24 @@
+**/.DS_Store
+**/.idea
+**/.gradle
+**/.vertx
+.gradle
+**/*.iml
+**/service-scripts
+**/file-uploads
+**/pom.xml.versionsBackup
+**/package-lock.json
+logs
+build
+build/**
+**/.DS_Store
+# NPM packages folder.
+node_modules/
+target
+**/dependency-reduced-pom.xml
+**/.node
+.classpath
+.project
+.settings
+*/bin/main
+*/bin/test

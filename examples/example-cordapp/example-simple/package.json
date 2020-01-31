@@ -1,0 +1,27 @@
+{
+  "name": "example-simple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rimraf dist/* && rimraff node_modules/braid-corda-client",
+    "build": "webpack --progress -p",
+    "watch": "webpack --progress --watch",
+    "watch-server": "webpack-dev-server --progress --port 3333"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "braid-client": "4.1.2-SNAPSHOT"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "rimraf": "^2.6.2",
+    "watchify": "^3.9.0",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.3"
+  }
+}
